@@ -12,6 +12,7 @@ export interface Task {
   subTasks?: SubTask[];
   createdAt: string;
   updatedAt: string;
+  order?:number
 }
 
 export type TaskStatus = 'not-started' | 'in-progress' | 'blocked' | 'done';
