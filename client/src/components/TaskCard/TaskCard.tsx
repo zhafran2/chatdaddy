@@ -14,9 +14,8 @@ import {
 import { MoreVert, CheckCircleOutline, RadioButtonUnchecked } from '@mui/icons-material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-import { formatDate, getDateUrgency, getUrgencyColor } from '../../utils/dateUtils';
 import type { Task } from '../../types';
+import { formatDate, getDateUrgency, getUrgencyColor, getUrgencyChipColor } from '../../utils/dateUtils';
 
 interface TaskCardProps {
   task: Task;
@@ -69,8 +68,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete, onUpdateTas
     onUpdateTask(task.id, { subTasks: updatedSubTasks });
   };
 
-  const urgency = task.dueDate ? getDateUrgency(task.dueDate) : 'normal';
+  const urgency = task.dueDate ? getDateUrgency(task.dueDate, task.status) : 'normal';
   const cardBg = task.dueDate ? getUrgencyColor(urgency) : '#FFFFFF';
+  const chipColors = task.dueDate ? getUrgencyChipColor(urgency) : { backgroundColor: '#E5E7EB', color: '#374151' };
 
   return (
     <Card
@@ -106,8 +106,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete, onUpdateTas
             size="small"
             sx={{
               mt: 1,
-              backgroundColor: urgency === 'overdue' ? '#FCA5A5' : urgency === 'due-soon' ? '#FDBA74' : '#D1FAE5',
-              color: urgency === 'overdue' ? '#7F1D1D' : urgency === 'due-soon' ? '#92400E' : '#065F46',
+              backgroundColor: chipColors.backgroundColor,
+              color: chipColors.color,
               fontSize: '0.75rem',
               height: '24px',
             }}
